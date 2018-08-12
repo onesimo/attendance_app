@@ -22,11 +22,11 @@
                         <a href="#"><i class="fa fa-wrench fa-fw"></i>Students<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="{{route('admin.students.index')}}">All Students</a>
+                                <a href="{{route('admin.student.index')}}">All Students</a>
                             </li>
 
                             <li>
-                                <a href="{{route('admin.students.create')}}">Create User Student</a>
+                                <a href="{{route('admin.student.create')}}">Create User Student</a>
                             </li>
 
                         </ul>
@@ -37,11 +37,11 @@
                         <a href="#"><i class="fa fa-wrench fa-fw"></i> Professors<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="{{route('admin.professors.index')}}"">All Professors</a>
+                                <a href="{{route('admin.professor.index')}}"">All Professors</a>
                             </li>
 
                             <li>
-                                <a href="{{route('admin.professors.create')}}"">Create Professor</a>
+                                <a href="{{route('admin.professor.create')}}"">Create Professor</a>
                             </li> 
 
                         </ul>
@@ -53,10 +53,10 @@
                         <a href="#"><i class="fa fa-wrench fa-fw"></i>Classes<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="{{route('admin.classe.index')}}">All Classes</a>
+                                <a href="{{route('admin.grade.index')}}">All Classes</a>
                             </li>
                              <li>
-                                <a href="{{route('admin.classe.create')}}">Create Class</a>
+                                <a href="{{route('admin.grade.create')}}">Create Class</a>
                             </li>
 
                         </ul>

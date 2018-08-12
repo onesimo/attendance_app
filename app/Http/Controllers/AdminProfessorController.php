@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\User;
 
-class AdminStudentsController extends Controller
+class AdminProfessorController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,9 +15,10 @@ class AdminStudentsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $students = User::paginate(6);
-        return view('admin.students.index', compact('students'));
+    {   
+
+        $professors = User::whereTypeId(2)->paginate(10);
+        return view('admin.professor.index', compact('professors'));
     }
 
     /**
@@ -25,7 +28,7 @@ class AdminStudentsController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.professor.create');
     }
 
     /**
@@ -35,8 +38,17 @@ class AdminStudentsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
+    {   
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed',]);
+
+        $request['password'] = Hash::make($request->password);
+          
+        User::create($request->all());
+
+        return $this->index();
     }
 
     /**
@@ -57,8 +69,10 @@ class AdminStudentsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
-        //
+    {     
+
+        $professor = User::findOrfail($id);
+        return view('admin.professor.edit',compact('professor'));
     }
 
     /**

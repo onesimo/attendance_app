@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\User;
 
-class AdminProfessorsController extends Controller
+class AdminStudentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,11 +14,9 @@ class AdminProfessorsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   
-
-        $professors = User::paginate(6);
-
-        return view('admin.professors.index', compact('professors'));
+    {
+        $students = User::whereTypeId(1)->paginate(10);
+        return view('admin.student.index', compact('students'));
     }
 
     /**
@@ -27,7 +26,7 @@ class AdminProfessorsController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.student.create');
     }
 
     /**
@@ -38,7 +37,16 @@ class AdminProfessorsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed',]);
+
+        $request['password'] = Hash::make($request->password);
+          
+        User::create($request->all());
+
+        return $this->index();
     }
 
     /**

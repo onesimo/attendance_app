@@ -15,7 +15,7 @@
 			<tr>
 				<td>{{$professor->name}}</td>
 				<td>{{$professor->email}}</td> 
-				<td><button class="btn btn-update">update</button></td>
+				<td><a href="{{route('admin.professor.edit',$professor->id)}}"><button class="btn btn-update">update</button></a></td>
 				<td><button class="btn btn-danger">delete</button></td>
 			</tr>
 		@endforeach

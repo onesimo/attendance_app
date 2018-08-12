@@ -42,7 +42,7 @@ class GradeController extends Controller
     {
 
         Grade::create($request->all());
-        return redirect(route('admin.classe.index'));
+        return redirect(route('admin.grade.index'));
     }
 
     /**

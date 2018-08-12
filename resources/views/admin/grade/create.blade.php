@@ -37,7 +37,7 @@
 	  {!! Form::submit('Submit',['class' => 'btn btn-primary']) !!} 
 	 </div>
 	{!! Form::close() !!}
-
+	@include('errors.errors_form')
 	<hr>
 </div>
 @stop
