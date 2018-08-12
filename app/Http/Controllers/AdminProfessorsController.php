@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Grade;
+use App\User;
 
-
-class GradeController extends Controller
+class AdminProfessorsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,9 +15,9 @@ class GradeController extends Controller
     public function index()
     {   
 
-        $grades = Grade::paginate(6);
-        
-        return view('admin.grade.index', compact('grades'));
+        $professors = User::paginate(6);
+
+        return view('admin.professors.index', compact('professors'));
     }
 
     /**
@@ -29,7 +27,7 @@ class GradeController extends Controller
      */
     public function create()
     {
-        return view('admin.grade.create');
+        //
     }
 
     /**
@@ -40,18 +38,16 @@ class GradeController extends Controller
      */
     public function store(Request $request)
     {
-
-        Grade::create($request->all());
-        return redirect(route('admin.classe.index'));
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Grade  $grade
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Grade $grade)
+    public function show($id)
     {
         //
     }
@@ -59,10 +55,10 @@ class GradeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Grade  $grade
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Grade $grade)
+    public function edit($id)
     {
         //
     }
@@ -71,10 +67,10 @@ class GradeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Grade  $grade
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Grade $grade)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -82,10 +78,10 @@ class GradeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Grade  $grade
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Grade $grade)
+    public function destroy($id)
     {
         //
     }
