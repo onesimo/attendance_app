@@ -58,8 +58,9 @@ class AdminProfessorController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        //
+    {   
+        $professor = User::findOrfail($id);   
+        return view('admin.professor.comfirm_delete',compact('professor'));
     }
 
     /**
@@ -83,8 +84,27 @@ class AdminProfessorController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        //
+    {   
+        $user = User::findOrfail($id);
+
+        $password_update = '';
+        if(isset($request->password)){
+            $password_update = 'required|string|min:6|confirmed';
+            $user->password = Hash::make($request->password);  
+        }
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'password' => $password_update,]);
+
+        
+        $user->name = $request->name;
+        $user->email = $request->email;
+
+        $user->save();
+
+        return $this->index();
     }
 
     /**
@@ -95,6 +115,8 @@ class AdminProfessorController extends Controller
      */
     public function destroy($id)
     {
-        //
+        User::findOrfail($id)->delete();
+
+        return $this->index();
     }
 }
