@@ -62,20 +62,25 @@
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>
-<!-- 
+
             
                     <li>
-                        <a href="#"><i class="fa fa-wrench fa-fw"></i>Media<span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-wrench fa-fw"></i>Students Requests<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="">All Media</a>
-                            </li>
+                                <a href="">All Requests</a>
+                            </li> 
+                        </ul> 
+                        <!-- /.nav-second-level -->
+                    </li>
 
+                    <li>
+                        <a href="#"><i class="fa fa-wrench fa-fw"></i>Reports<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
                             <li>
-                                <a href="">Upload Media</a>
-                            </li>
-
-                        </ul> -->
+                                <a href="">Attendance Report</a>
+                            </li> 
+                        </ul> 
                         <!-- /.nav-second-level -->
                     </li>
 

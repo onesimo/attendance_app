@@ -17,4 +17,14 @@ class Grade extends Model
     	'professor_id'
     ];
     protected $dates = ['deleted_at'];
+
+    public function professor()
+    {
+    	return $this->belongsTo('App\User','professor_id');
+    }
+
+    public function student()
+    {
+        return $this->belongsToMany('App/User');
+    }
 }

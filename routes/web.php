@@ -21,7 +21,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/admin', 'AdminController@index')->name('admin');
 
-Route::resource('admin/grade','GradeController',['as'=>'admin']);
+Route::resource('admin/grade','AdminGradeController',['as'=>'admin']);
 Route::resource('admin/professor','AdminProfessorController',['as'=>'admin']);
 Route::resource('admin/student','AdminStudentController',['as'=>'admin']);
 

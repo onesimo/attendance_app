@@ -10,17 +10,18 @@
 		<th>Start time</th>
 		<th>Finish time</th>
 		<th>Professor</th>
-		<th></th>
-		<th></th>
-
+		<th>Add Students</th>
+		<th>Update</th>
+		<th>Delete</th>
 		@foreach($grades as $grade)
 			<tr>
 				<td>{{$grade->name}}</td>
 				<td>{{$grade->start_time}}</td>
 				<td>{{$grade->finish_time}}</td>
-				<td>{{$grade->professor_id}}</td>
-				<td><button class="btn btn-update">update</button></td>
-				<td><button class="btn btn-danger">delete</button></td>
+				<td>{{$grade->professor->name}}</td>
+				<td><a href="{{route('admin.grade.edit',$grade->id)}}"><button class="btn btn-success">Add Students</button></a></td>
+				<td><a href="{{route('admin.grade.edit',$grade->id)}}"><button class="btn btn-update">Update</button></a></td>
+				<td><button class="btn btn-danger">Delete</button></td>
 			</tr>
 		@endforeach
 	</table>

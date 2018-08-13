@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Grade;
+use App\User;
 
-
-class GradeController extends Controller
+class AdminGradeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -28,8 +29,9 @@ class GradeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        return view('admin.grade.create');
+    {   
+        $professors = User::whereStatus(1)->whereTypeId(2)->pluck('name','id')->all();
+        return view('admin.grade.create',compact('professors'));
     }
 
     /**
@@ -39,7 +41,14 @@ class GradeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {   
+
+        $request->validate([
+            'name' => 'required',
+            'start_time' => 'required|date_format:H:i',
+            'finish_time' => 'required|date_format:H:i',
+
+        ]);
 
         Grade::create($request->all());
         return redirect(route('admin.grade.index'));
@@ -62,9 +71,12 @@ class GradeController extends Controller
      * @param  \App\Grade  $grade
      * @return \Illuminate\Http\Response
      */
-    public function edit(Grade $grade)
+    public function edit($id)
     {
-        //
+        $grade = Grade::findOrFail($id); 
+        $professors = User::whereStatus(1)->whereTypeId(2)->pluck('name','id')->all();
+        
+        return view('admin.grade.edit',compact('grade','professors'));
     }
 
     /**
@@ -74,9 +86,11 @@ class GradeController extends Controller
      * @param  \App\Grade  $grade
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Grade $grade)
+    public function update(Request $request, $id)
     {
-        //
+        $grade = Grade::findOrFail($id);
+        $grade->update($request->all());
+        return $this->index();
     }
 
     /**

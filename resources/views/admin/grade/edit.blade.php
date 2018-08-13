@@ -1,11 +1,12 @@
 @extends('layouts.admin')
- 
-@section('content')
- <p class="h3 text-muted">Create Class</p>
- <div class="col-sm-5">
-  		{!! Form::open(['method'=>'POST', 'action' => 'AdminGradeController@store']) !!}
 
-  		<div class="form-group">
+@section('content')
+	 
+
+<p class="h3 text-muted">Edit Professor</p>
+ <div class="col-sm-5">
+		{!! Form::model($grade, ['method'=>'PUT', 'action' => ['AdminGradeController@update', $grade->id]]) !!}
+		<div class="form-group">
 
 		  {!! Form::label('name','Name:') !!}
 		  {!! Form::text('name',null,['class'=>'form-control']) !!}

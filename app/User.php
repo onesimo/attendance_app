@@ -26,4 +26,14 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function professor()
+    {
+        return $this->hasMany('App/Grade','professor_id');
+    }
+
+    public function grade()
+    {
+        return $this->belongsToMany('App/Grade');
+    }
 }
