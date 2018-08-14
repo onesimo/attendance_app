@@ -29,11 +29,12 @@ class User extends Authenticatable
 
     public function professor()
     {
-        return $this->hasMany('App/Grade','professor_id');
+        return $this->hasMany('App\Grade','professor_id');
     }
 
-    public function grade()
+    public function grades()
     {
-        return $this->belongsToMany('App/Grade');
+        return $this->belongsToMany('App\Grade','grade_user')->withPivot('deleted_at', 'created_at','updated_at');
+;
     }
 }

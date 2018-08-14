@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
+use App\User;
 
 class Grade extends Model
 {		
@@ -23,8 +23,8 @@ class Grade extends Model
     	return $this->belongsTo('App\User','professor_id');
     }
 
-    public function student()
+    public function students()
     {
-        return $this->belongsToMany('App/User');
+        return $this->belongsToMany('App\User')->withTimestamps();
     }
 }

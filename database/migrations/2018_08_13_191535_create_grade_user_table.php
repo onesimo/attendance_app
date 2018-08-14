@@ -19,6 +19,12 @@ class CreateGradeUserTable extends Migration
             $table->integer('grade_id')->unsigned();
             $table->softDeletes();
             $table->timestamps();
+
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
+            $table->foreign('grade_id')->reference('id')->on('grades')->onDelete('cascade');
+
         });
     }
 

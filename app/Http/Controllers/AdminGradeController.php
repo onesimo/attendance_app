@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use App\Grade;
 use App\User;
 
@@ -102,5 +103,42 @@ class AdminGradeController extends Controller
     public function destroy(Grade $grade)
     {
         //
+    }
+
+    public function addStudent($id)
+    {   
+        $grade = Grade::findOrFail($id);
+        return view('admin.grade.add_student',compact('grade'));
+    }
+
+    public function storeStudentInGrade(Request $request)
+    {   
+
+        $grade = Grade::findOrFail($request->grade_id);
+
+        $grade->students()->attach($request->student_id);
+
+        Session::flash('mesg_grade_student', 'The student has been added');
+
+        return redirect(route('admin.grade.add.student',$request->grade_id));
+    }
+
+    public function searchStudent(Request $request)
+    {   
+
+        $request->validate([
+            'filter' => 'required'
+        ]);
+
+        $grade = Grade::findOrFail($request->grade_id);
+
+        $students = [];
+        if($request->search_type == 'name'){
+            $students = User::where('name', 'LIKE', '%'.$request->filter.'%')->get();
+        }else{
+            $students = User::whereId($request->filter)->get();;
+        } 
+
+        return view('admin.grade.add_student',compact('grade', 'students'));
     }
 }

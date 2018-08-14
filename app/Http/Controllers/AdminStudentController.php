@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\User;
 
+
 class AdminStudentController extends Controller
 {
     /**
@@ -93,4 +94,6 @@ class AdminStudentController extends Controller
     {
         //
     }
+
+    
 }
