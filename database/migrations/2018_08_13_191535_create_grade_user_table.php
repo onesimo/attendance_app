@@ -14,16 +14,15 @@ class CreateGradeUserTable extends Migration
     public function up()
     {
         Schema::create('grade_user', function (Blueprint $table) {
-            $table->increments('id');
+
             $table->integer('user_id')->unsigned();
             $table->integer('grade_id')->unsigned();
             $table->softDeletes();
             $table->timestamps();
-
+            $table->unique(array('grade_id','user_id'));
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-
-            $table->foreign('grade_id')->reference('id')->on('grades')->onDelete('cascade');
+            $table->foreign('grade_id')->references('id')->on('grades')->onDelete('cascade');
 
         });
     }

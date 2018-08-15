@@ -81,7 +81,12 @@
 				<td> {{ $student->id }} </td>
 				<td> {{ $student->name }} </td>
 				<td> {{ $student->email }} </td>
-				<td><button class="btn btn-danger">Remove</button></td>
+				<td>
+					{!! Form::open(['method' => 'POST', 'action' => ['AdminGradeController@removeStudent']]) !!}
+							<input type="hidden" name="student_id" value="{{$student->id}}">
+							<input type="hidden" name="grade_id" value="{{$grade->id}}">
+							{!! Form::submit('Remove',['class'=>'btb btn-danger']) !!}
+					 		{!! Form::close() !!}</td>
 			</tr> 
 			@endforeach
 		@endif

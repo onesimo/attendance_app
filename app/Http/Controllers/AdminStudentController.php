@@ -92,7 +92,9 @@ class AdminStudentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        //$user = User::findOrFail($id);
+
+        ///$user->grades()->deatch()
     }
 
     

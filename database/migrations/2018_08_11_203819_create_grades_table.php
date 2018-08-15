@@ -21,6 +21,9 @@ class CreateGradesTable extends Migration
             $table->integer('professor_id')->deafault(0);
             $table->softDeletes();
             $table->timestamps();
+
+            //$table->foreign('professor_id')->references('id')->on('users');
+        
         });
     }
 

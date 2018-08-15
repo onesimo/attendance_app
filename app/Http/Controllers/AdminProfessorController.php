@@ -60,7 +60,7 @@ class AdminProfessorController extends Controller
     public function show($id)
     {   
         $professor = User::findOrfail($id);   
-        return view('admin.professor.comfirm_delete',compact('professor'));
+        return view('admin.professor.confirm_delete',compact('professor'));
     }
 
     /**

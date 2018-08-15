@@ -76,7 +76,6 @@ class AdminGradeController extends Controller
     {
         $grade = Grade::findOrFail($id); 
         $professors = User::whereStatus(1)->whereTypeId(2)->pluck('name','id')->all();
-        
         return view('admin.grade.edit',compact('grade','professors'));
     }
 
@@ -140,5 +139,18 @@ class AdminGradeController extends Controller
         } 
 
         return view('admin.grade.add_student',compact('grade', 'students'));
+    }
+
+
+    public function removeStudent(Request $request)
+    {   
+
+        //return $request->all();
+
+        $user = User::findOrFail($request->student_id);
+
+        $user->grades()->detach($request->grade_id);
+
+        return redirect(route('admin.grade.add.student',$request->grade_id));
     }
 }
