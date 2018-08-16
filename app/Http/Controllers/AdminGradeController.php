@@ -107,19 +107,26 @@ class AdminGradeController extends Controller
     public function addStudent($id)
     {   
         $grade = Grade::findOrFail($id);
+
         return view('admin.grade.add_student',compact('grade'));
     }
 
     public function storeStudentInGrade(Request $request)
     {   
 
-        $grade = Grade::findOrFail($request->grade_id);
+        $request->validate([
+            'grade_id'  => 'required:unique:grade_user, grade_id',
+            'student_id' => 'required:unique:grade_user, id_user'
+        ]);
+
+       /* $grade = Grade::findOrFail($request->grade_id);
 
         $grade->students()->attach($request->student_id);
 
         Session::flash('mesg_grade_student', 'The student has been added');
 
         return redirect(route('admin.grade.add.student',$request->grade_id));
+        */
     }
 
     public function searchStudent(Request $request)
