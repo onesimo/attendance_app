@@ -45,8 +45,8 @@
 	</div>
 	@include('errors.errors_form')
 
-	@if(Session::has('mesg_grade_student'))
-		<p class="bg-success">{{session('mesg_grade_student')}}</p>
+	@if(Session::has('msg_grade_student'))
+		<p class="bg-info">{{session('msg_grade_student')}}</p>
 	@endif
 	<hr>
 	<table class="table">
@@ -57,15 +57,17 @@
 			<th></th>
 		</tr>
 		 </div>
-		@if(isset($students)) 
-				@foreach($students as $student)
+		@if(Session::has('students'))
+
+			echo  
+				@foreach(Session::get('students') as $student)
 				<tr>
-					<td> {{ $student->id }} </td>
-					<td> {{ $student->name }} </td>
-					<td> {{ $student->email }} </td>
+					<td> {{ $student['id'] }} </td>
+					<td> {{ $student['name'] }} </td>
+					<td> {{ $student['email'] }} </td>
 					<td> 
 					 		{!! Form::open(['method' => 'POST', 'action' => ['AdminGradeController@storeStudentInGrade']]) !!}
-							<input type="hidden" name="student_id" value="{{$student->id}}">
+							<input type="hidden" name="student_id" value="{{$student['id']}}">
 							<input type="hidden" name="grade_id" value="{{$grade->id}}">
 							{!! Form::submit('Add',['class'=>'btb btn-success']) !!}
 					 		{!! Form::close() !!}
@@ -92,5 +94,8 @@
 		@endif
 	
 	</table>
+	<div class="row">
+		
+	</div>
 @stop
 

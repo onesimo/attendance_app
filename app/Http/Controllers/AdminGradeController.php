@@ -115,18 +115,18 @@ class AdminGradeController extends Controller
     {   
 
         $request->validate([
-            'grade_id'  => 'required:unique:grade_user, grade_id',
-            'student_id' => 'required:unique:grade_user, id_user'
+            'grade_id'  => 'required|unique:grade_user,grade_id,NULL, NULL,user_id,' . $request->student_id,
+            'student_id' => 'required|unique:grade_user,user_id,NULL, NULL,grade_id,' . $request->grade_id,
         ]);
 
-       /* $grade = Grade::findOrFail($request->grade_id);
+        $grade = Grade::findOrFail($request->grade_id);
 
         $grade->students()->attach($request->student_id);
 
-        Session::flash('mesg_grade_student', 'The student has been added');
+        Session::flash('msg_grade_student', 'The student has been added');
 
         return redirect(route('admin.grade.add.student',$request->grade_id));
-        */
+        
     }
 
     public function searchStudent(Request $request)
@@ -138,21 +138,20 @@ class AdminGradeController extends Controller
 
         $grade = Grade::findOrFail($request->grade_id);
 
-        $students = [];
         if($request->search_type == 'name'){
             $students = User::where('name', 'LIKE', '%'.$request->filter.'%')->get();
         }else{
-            $students = User::whereId($request->filter)->get();;
+            $students = User::whereId($request->filter)->get();
         } 
-
-        return view('admin.grade.add_student',compact('grade', 'students'));
+ 
+        return redirect()->back()->with(compact('students',$students));
     }
 
 
     public function removeStudent(Request $request)
     {   
 
-        //return $request->all();
+        Session::flash('msg_grade_student', 'The student has been removed');
 
         $user = User::findOrFail($request->student_id);
 
