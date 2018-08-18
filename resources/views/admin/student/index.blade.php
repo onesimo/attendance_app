@@ -15,8 +15,8 @@
 			<tr>
 				<td>{{$student->name}}</td>
 				<td>{{$student->email}}</td> 
-				<td><button class="btn btn-update">update</button></td>
-				<td><button class="btn btn-danger">delete</button></td>
+				<td><a href="{{route('admin.student.edit',$student->id)}}"><button class="btn btn-update">update</button></a></td>
+				<td><a href="{{route('admin.student.show',$student->id)}}"><button class="btn btn-danger">delete</button
 			</tr>
 		@endforeach
 	</table>

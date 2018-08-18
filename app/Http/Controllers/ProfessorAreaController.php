@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Grade;
 use Illuminate\Http\Request;
 
-
-class AdminController extends Controller
+class ProfessorAreaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,18 +12,8 @@ class AdminController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   
-        $type_user = $this->checkUserType(); 
-            switch ($user_type) {
-                case '2':
-                    return redirect('/professor');
-                    break;
-                case '3': 
-                    return redirect('/student');
-                    break;
-            }
-
-        return view('admin.index');
+    {
+        return view('professor_area.index');
     }
 
     /**
@@ -52,10 +40,10 @@ class AdminController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Grade  $grade
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Grade $grade)
+    public function show($id)
     {
         //
     }
@@ -63,10 +51,10 @@ class AdminController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Grade  $grade
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Grade $grade)
+    public function edit($id)
     {
         //
     }
@@ -75,10 +63,10 @@ class AdminController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Grade  $grade
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Grade $grade)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -86,10 +74,10 @@ class AdminController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Grade  $grade
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Grade $grade)
+    public function destroy($id)
     {
         //
     }

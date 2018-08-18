@@ -21,7 +21,7 @@
 				<td>{{$grade->professor->name}}</td>
 				<td><a href="{{route('admin.grade.add.student',$grade->id)}}"><button class="btn btn-success">Manager</button></a></td>
 				<td><a href="{{route('admin.grade.edit',$grade->id)}}"><button class="btn btn-update">Update</button></a></td>
-				<td><button class="btn btn-danger">Delete</button></td>
+				<td><a href="{{route('admin.grade.show',$grade->id)}}"><button class="btn btn-danger">delete</button></a></td>
 			</tr>
 		@endforeach
 	</table>

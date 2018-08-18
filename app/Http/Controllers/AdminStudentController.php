@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\User;
-
+use App\Grade;
 
 class AdminStudentController extends Controller
 {
@@ -26,8 +26,9 @@ class AdminStudentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        return view('admin.student.create');
+    {   
+        $grades = Grade::pluck('name','id')->all();
+        return view('admin.student.create',compact('grades'));
     }
 
     /**
@@ -58,7 +59,8 @@ class AdminStudentController extends Controller
      */
     public function show($id)
     {
-        //
+        $student = User::findOrfail($id);   
+        return view('admin.student.confirm_delete',compact('student'));
     }
 
     /**
@@ -69,7 +71,8 @@ class AdminStudentController extends Controller
      */
     public function edit($id)
     {
-        //
+        $student = User::findOrFail($id); 
+        return view('admin.student.edit',compact('student'));
     }
 
     /**
@@ -80,8 +83,27 @@ class AdminStudentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        //
+    {   
+        $user = User::findOrfail($id);
+       
+
+        $password_update = '';
+        if(trim($request->password) !== ''){
+            $input = $request->all(); 
+            $password_update = 'required|string|min:6|confirmed';
+            $input['password'] = Hash::make($request->password);  
+        }else{ 
+            $input = $request->except('password'); 
+        }
+ 
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'password' => $password_update,]);  
+ 
+        $user->update($input);
+
+        return $this->index();
     }
 
     /**
@@ -92,9 +114,8 @@ class AdminStudentController extends Controller
      */
     public function destroy($id)
     {
-        //$user = User::findOrFail($id);
-
-        ///$user->grades()->deatch()
+        $user = User::findOrFail($id)->delete();
+        return $this->index();
     }
 
     

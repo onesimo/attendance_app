@@ -19,6 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/admin', 'AdminController@index')->name('admin');
+Route::get('/professor', 'ProfessorAreaController@index')->name('professor');
 	
 Route::resource('admin/grade','AdminGradeController',['as'=>'admin']);
 

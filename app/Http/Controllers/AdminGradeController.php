@@ -61,9 +61,10 @@ class AdminGradeController extends Controller
      * @param  \App\Grade  $grade
      * @return \Illuminate\Http\Response
      */
-    public function show(Grade $grade)
+    public function show($id)
     {
-        //
+        $grade = Grade::findOrfail($id);   
+        return view('admin.grade.confirm_delete',compact('grade'));
     }
 
     /**
@@ -99,9 +100,10 @@ class AdminGradeController extends Controller
      * @param  \App\Grade  $grade
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Grade $grade)
+    public function destroy($id)
     {
-        //
+        $grade = Grade::findOrFail($id)->delete();
+        return $this->index();
     }
 
     public function addStudent($id)
