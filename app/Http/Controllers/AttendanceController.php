@@ -2,23 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
+use App\Attendance;
 use Illuminate\Http\Request;
- 
+use App\Grade;
 
-
-class ProfessorAreaController extends Controller
+class AttendanceController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {   
-
-        $user = Auth::user();
-        return view('professor_area.index', compact('user'));
+    public function index($id)
+    { 
+        $grade = Grade::findOrFail($id);
+        return view('professor_area.attendance.index',compact('grade'));
     }
 
     /**
@@ -28,7 +26,7 @@ class ProfessorAreaController extends Controller
      */
     public function create()
     {
-        //
+      
     }
 
     /**
@@ -39,27 +37,29 @@ class ProfessorAreaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return $request->all();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Attendance  $attendance
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        //
+    {   
+        $grade = Grade::findOrFail($id);
+
+        return view('professor_area.attendance.create', compact('grade'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Attendance  $attendance
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Attendance $attendance)
     {
         //
     }
@@ -68,10 +68,10 @@ class ProfessorAreaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Attendance  $attendance
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Attendance $attendance)
     {
         //
     }
@@ -79,10 +79,10 @@ class ProfessorAreaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Attendance  $attendance
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Attendance $attendance)
     {
         //
     }

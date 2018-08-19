@@ -16,7 +16,7 @@ class AdminController extends Controller
     public function index()
     {   
         $type_user = $this->checkUserType(); 
-            switch ($user_type) {
+            switch ($type_user) {
                 case '2':
                     return redirect('/professor');
                     break;
