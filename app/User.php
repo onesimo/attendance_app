@@ -39,4 +39,12 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Grade','grade_user')->withPivot('deleted_at', 'created_at','updated_at');
 ;
     }
+
+    public function attendances()
+    {
+        return $this->belongsToMany('App\Grade','attendances');
+;
+    }
+
+ 
 }

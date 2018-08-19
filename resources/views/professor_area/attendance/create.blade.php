@@ -7,8 +7,11 @@
 Add Attendance
 <hr>
 <div class="row">
-	<div class="col">Date:<input type="text" name="attendance_date"></div>
-</div>
+
+	<div class="col">Date:
+		{!! Form::date('attendance_date', \Carbon\Carbon::now()) !!}
+		<input type="hidden" name="grade_id" value="{{$grade->id}}">
+	</div>
 <table class="table">
 	<tr>
 	<th>Id</th>
@@ -24,8 +27,8 @@ Add Attendance
 				<tr>
 				<td>{{$students->id}}</td>
 				<td width="300px">{{$students->name}}</td>
-				<td><input type="checkbox" name="attendance_1[]" value="{{$students->id}}"></td>
-				<td><input type="checkbox" name="attendance_2[]" value="{{$students->id}}"></td>
+				<td>{!! Form::checkbox('attendance_1[]', $students->id) !!}</td>
+				<td>{!! Form::checkbox('attendance_2[]', $students->id) !!}</td>
 			@endforeach		
 		@endif
 	</tr>
@@ -33,5 +36,8 @@ Add Attendance
 </table>
 
 <button class="btn btn-success">Submit</button>
+</div>
 {!! Form::close() !!}
+
+@include('errors.errors_form')
 @stop

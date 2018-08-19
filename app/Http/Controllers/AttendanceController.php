@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Attendance;
 use Illuminate\Http\Request;
 use App\Grade;
+use App\User;
 
 class AttendanceController extends Controller
 {
@@ -36,7 +37,49 @@ class AttendanceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {   
+        $grade = Grade::findOrFail($request->grade_id);
+
+        $request->validate([ 
+                    'attendance_date' => 'required'                
+        ]);
+        
+
+        if(isset($request->attendance_1)){
+            foreach ($request->attendance_1 as $attendance1){
+
+                $request->validate([
+                    'grade_id'  => 'required|unique:attendances,grade_id,NULL, NULL,attendance_date,' . $attendance1,
+                    'attendance_date' => 'required|unique:attendances,attendance_date,NULL, NULL,grade_id,' . $request->attendance_date,
+                
+                ]);
+
+                $user = User::findOrFail($attendance1);
+                $grade->attendances()->save($user,[
+                    'attendance_date' => $request->attendance_date, 
+                    'interval' => 1
+                ]);    
+            }
+        }
+
+        if(isset($request->attendance_2)){ 
+            foreach ($request->attendance_2 as $attendance2){
+                
+                $request->validate([
+                    'grade_id'  => 'required|unique:attendances,grade_id,NULL, NULL,attendance_date,' . $attendance2,
+                    'attendance_date' => 'required|unique:attendances,attendance_date,NULL, NULL,grade_id,' . $request->attendance_date,
+                
+                ]);
+
+                $user = User::findOrFail($attendance2);
+                $grade->attendances()->save($user,[
+                    'attendance_date' => $request->attendance_date, 
+                    'interval' => 2
+                ]);    
+            }
+        }
+
+
         return $request->all();
     }
 

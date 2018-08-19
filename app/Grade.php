@@ -27,4 +27,11 @@ class Grade extends Model
     {
         return $this->belongsToMany('App\User')->withTimestamps();
     }
+
+    public function attendances()
+    {
+        return $this->belongsToMany('App\User','attendances')->withTimestamps();
+    }
+
+
 }
