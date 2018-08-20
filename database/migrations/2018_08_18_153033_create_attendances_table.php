@@ -18,6 +18,8 @@ class CreateAttendancesTable extends Migration
             $table->integer('grade_id')->references('id')->on('grades');
             $table->date('attendance_date');
             $table->integer('interval');
+            $table->unique(array('grade_id','user_id','attendance_date','interval'));
+
             $table->timestamps();
         });
     }
