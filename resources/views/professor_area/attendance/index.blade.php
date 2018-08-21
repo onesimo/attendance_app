@@ -3,9 +3,9 @@
 @section('content')
 
 
-<h3>Attendance - {{$grade->name}}</h3>
+<h4>Attendance - {{$grade->name}} 
+<a href="{{route('professor.attendance.show',$grade->id)}}"><button type="button" class="btn btn-success btn-sm">Add Attendance</button></a></h4>
 
-<p><a href="{{route('professor.attendance.show',$grade->id)}}"><button type="button" class="btn btn-success btn-sm">Add Attendance</button></a>
 </p>
 
 <table class="table">
@@ -28,7 +28,12 @@
 					 
 				</td>
 				<td width="20px">
-					 <button class="btn btn-danger">Edit</button>
+					{!! Form::open(['method'=>'GET', 'action'=>['AttendanceController@edit',$attendace->id]]) !!}
+					<input type="hidden" name="attendance_date" value="{{$attendace->attendance_date}}">
+					<input type="hidden" name="grade_id" value="{{$attendace->id}}">
+					 <button class="btn btn-info">Edit</button>
+					{!! Form::close() !!}
+					
 				</td>
 			@endforeach		
 		@endif

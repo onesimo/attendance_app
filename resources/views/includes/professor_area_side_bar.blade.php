@@ -1,6 +1,6 @@
   <div class="col-2 collapse d-md-flex bg-faded pt-2 h-100" id="sidebar">
             <ul class="nav flex-column">
-                <li class="nav-item"><a class="nav-link" href="#">Classes</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{route('professor')}}">Classes</a></li>
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#submenu1" data-toggle="collapse" data-target="#submenu1">Reports</a>
                     <div class="collapse" id="submenu1" aria-expanded="false">

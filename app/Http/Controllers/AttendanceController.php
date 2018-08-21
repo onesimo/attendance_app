@@ -22,11 +22,12 @@ class AttendanceController extends Controller
         
          //$attendance = $grade->attendances->groupBy('attendance_date','grade_id','interval');
         $attendances = DB::table('attendances')
-                            ->join('grades','attendances.grade_id','=','grades.id')
                             ->select('attendance_date','grades.name','grades.id')
                             ->distinct()
+                            ->join('grades','attendances.grade_id','=','grades.id')
+                            ->where('grades.id','=',$id)
                             ->orderBy('attendance_date') 
-                            ->paginate(2);
+                            ->paginate(4);
          
         return view('professor_area.attendance.index',compact('grade','attendances'));
     }
@@ -72,7 +73,10 @@ class AttendanceController extends Controller
 
         if(isset($request->attendance_1)){
             for($i = 0; $i < count($request->attendance_1); $i++)
-                $sync_data[$request->attendance_1[$i]] = ['attendance_date' => $request->attendance_date, 'interval' =>1];
+                $sync_data[$request->attendance_1[$i]] = [
+                    'attendance_date' => $request->attendance_date, 
+                    'interval' =>1
+                ];
 
             $grade->attendances()->attach($sync_data);
         }
@@ -92,7 +96,10 @@ class AttendanceController extends Controller
 
         if(isset($request->attendance_2)){
             for($i = 0; $i < count($request->attendance_2); $i++)
-                $sync_data[$request->attendance_2[$i]] = ['attendance_date' => $request->attendance_date, 'interval' =>2];
+                $sync_data[$request->attendance_2[$i]] = [
+                    'attendance_date' => $request->attendance_date, 
+                    'interval' =>2
+                ];
 
             $grade->attendances()->attach($sync_data);
         }
@@ -116,12 +123,21 @@ class AttendanceController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Attendance  $attendance
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function edit(Attendance $attendance)
+    public function edit(Request $request)
     {
-        //
+        
+        $attendances = DB::table('attendances')
+                            ->join('users','users.id','=','attendances.user_id')
+                            ->select('users.name', 'attendances.interval') 
+                            ->where('attendance_date','=',$request->attendance_date)
+                            ->where('grade_id','=',$request->grade_id)
+                            ->get();
+
+
+        return view('professor_area.attendance.edit',compact('attendances'));
     }
 
     /**
