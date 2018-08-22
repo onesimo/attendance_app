@@ -15,8 +15,8 @@
 	@foreach($attendances as $attendance)
 		<tr>
 			<td>{{$attendance->name}}
-			<td>
-			<td>
+			<td> <input type="checkbox" name="interval1">
+			<td> <input type="checkbox" name="interval2">
 	@endforeach
 
 @endif
