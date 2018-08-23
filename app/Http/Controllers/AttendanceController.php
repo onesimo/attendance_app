@@ -131,12 +131,21 @@ class AttendanceController extends Controller
         
         $attendances = DB::table('attendances')
                             ->join('users','users.id','=','attendances.user_id')
-                            ->select('users.name', 'attendances.interval') 
+                            ->select('users.name','users.id',
+                                DB::raw("(select distinct `interval` from attendances as where grade_id = ".$request->grade_id." and `interval` = 1 and user_id = users.id) as interval1"),
+
+                                DB::raw("(select distinct `interval` from attendances where grade_id = ".$request->grade_id." and `interval` = 2 and user_id = users.id) as interval2")
+                            )
                             ->where('attendance_date','=',$request->attendance_date)
                             ->where('grade_id','=',$request->grade_id)
+                            ->groupBy('users.name','users.id')
                             ->get();
 
+    
+    return $attendances;
 
+        
+       
         return view('professor_area.attendance.edit',compact('attendances'));
     }
 
