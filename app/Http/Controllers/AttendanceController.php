@@ -26,7 +26,7 @@ class AttendanceController extends Controller
                             ->distinct()
                             ->join('grades','attendances.grade_id','=','grades.id')
                             ->where('grades.id','=',$id)
-                            ->orderBy('attendance_date') 
+                            ->orderBy('attendance_date','desc') 
                             ->paginate(4);
          
         return view('professor_area.attendance.index',compact('grade','attendances'));
@@ -51,26 +51,19 @@ class AttendanceController extends Controller
     public function store(Request $request)
     {   
         $grade = Grade::findOrFail($request->grade_id);
-        $attendance = new Attendance;
 
-        if(!isset($request->attendance_1) && !isset($request->attendance_5)) {
+        /*Validation*/
+        if(!isset($request->attendance_1) && !isset($request->attendance_2)) {
             return back()->withErrors('No data selected');
         }
- 
         $request->validate(['attendance_date' => 'required']);
- 
-        /*Attendance from first interval */ 
-        if(isset($request->attendance_1)){
-            foreach ($request->attendance_1 as $user_id){
-                $user = User::findOrFail($user_id);
-                $return = $attendance->validateAttendance($request->grade_id, $user_id,$request->attendance_date,1);
-                if(!$return){
-                    return back()->withErrors('Attendance Student: '.$user->name.' has already been inserted on first inverval');
 
-                }
-             }
-        }
+        $attendances = Attendance::whereGradeId($request->grade_id)
+                            ->whereAttendanceDate($request->attendance_date)
+                            ->delete();
 
+        /*Insert first interval*/                    
+        $sync_data = [];
         if(isset($request->attendance_1)){
             for($i = 0; $i < count($request->attendance_1); $i++)
                 $sync_data[$request->attendance_1[$i]] = [
@@ -81,19 +74,8 @@ class AttendanceController extends Controller
             $grade->attendances()->attach($sync_data);
         }
 
-
-        /*Attendance from second interval */
-         if(isset($request->attendance_2)){
-            foreach ($request->attendance_2 as $user_id){
-                $user = User::findOrFail($user_id);
-                $return = $attendance->validateAttendance($request->grade_id, $user_id,$request->attendance_date,2);
-                if(!$return){
-                    return back()->withErrors('Attendance Student: '.$user->name.' has already been inserted on second interval');
-
-                }
-             }
-        }
-
+        /*Insert second interval*/     
+        $sync_data = [];
         if(isset($request->attendance_2)){
             for($i = 0; $i < count($request->attendance_2); $i++)
                 $sync_data[$request->attendance_2[$i]] = [
@@ -104,6 +86,8 @@ class AttendanceController extends Controller
             $grade->attendances()->attach($sync_data);
         }
 
+       
+         
         return redirect("professor/attendance/$request->grade_id/index");
     }
 
@@ -131,22 +115,23 @@ class AttendanceController extends Controller
         
         $attendances = DB::table('attendances')
                             ->join('users','users.id','=','attendances.user_id')
-                            ->select('users.name','users.id',
-                                DB::raw("(select distinct `interval` from attendances as where grade_id = ".$request->grade_id." and `interval` = 1 and user_id = users.id) as interval1"),
-
-                                DB::raw("(select distinct `interval` from attendances where grade_id = ".$request->grade_id." and `interval` = 2 and user_id = users.id) as interval2")
+                            ->join('grades','grades.id','=','attendances.grade_id')
+                            ->select('users.id','users.name','attendance_date','grades.name as grade','grades.id as grade_id',
+                                DB::raw("(select distinct `interval` from attendances where attendance_date = '".$request->attendance_date."' and grade_id = ".$request->grade_id." and `interval` = 1 and user_id = users.id ) as interval1"),
+                                DB::raw("(select distinct `interval` from attendances where attendance_date = '".$request->attendance_date."' and grade_id = ".$request->grade_id." and `interval` = 2 and user_id = users.id) as interval2")
                             )
                             ->where('attendance_date','=',$request->attendance_date)
                             ->where('grade_id','=',$request->grade_id)
-                            ->groupBy('users.name','users.id')
+
+                            ->groupBy('users.name','users.id','attendance_date','grades.name','grades.id')
                             ->get();
-
-    
-    return $attendances;
-
         
-       
-        return view('professor_area.attendance.edit',compact('attendances'));
+        $info_data['date'] = $attendances[0]->attendance_date;
+        $info_data['grade_name'] = $attendances[0]->grade;
+        $info_data['grade_id'] = $attendances[0]->grade_id;
+ 
+ 
+        return view('professor_area.attendance.edit',compact('attendances','info_data'));
     }
 
     /**
@@ -156,9 +141,47 @@ class AttendanceController extends Controller
      * @param  \App\Attendance  $attendance
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Attendance $attendance)
-    {
-        //
+    public function update(Request $request, $id_grade)
+    {   
+        $grade = Grade::findOrFail($request->grade_id);
+
+        /*Validation*/
+        if(!isset($request->attendance_1) && !isset($request->attendance_2)) {
+            return back()->withErrors('No data selected');
+        }
+        $request->validate(['attendance_date' => 'required']);
+
+        $attendances = Attendance::whereGradeId($request->grade_id)
+                            ->whereAttendanceDate($request->attendance_date)
+                            ->delete();
+
+        /*Insert first interval*/                    
+        $sync_data = [];
+        if(isset($request->attendance_1)){
+            for($i = 0; $i < count($request->attendance_1); $i++)
+                $sync_data[$request->attendance_1[$i]] = [
+                    'attendance_date' => $request->attendance_date, 
+                    'interval' =>1
+                ];
+
+            $grade->attendances()->attach($sync_data);
+        }
+
+        /*Insert second interval*/     
+        $sync_data = [];
+        if(isset($request->attendance_2)){
+            for($i = 0; $i < count($request->attendance_2); $i++)
+                $sync_data[$request->attendance_2[$i]] = [
+                    'attendance_date' => $request->attendance_date, 
+                    'interval' =>2
+                ];
+
+            $grade->attendances()->attach($sync_data);
+        }
+
+        return redirect()->back()->with('message','Data updated');
+
+        //return redirect("professor/attendance/$request->grade_id/index");
     }
 
     /**

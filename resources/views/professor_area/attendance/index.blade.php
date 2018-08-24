@@ -29,9 +29,9 @@
 				</td>
 				<td width="20px">
 					{!! Form::open(['method'=>'GET', 'action'=>['AttendanceController@edit',$attendace->id]]) !!}
-					<input type="hidden" name="attendance_date" value="{{$attendace->attendance_date}}">
-					<input type="hidden" name="grade_id" value="{{$attendace->id}}">
-					 <button class="btn btn-info">Edit</button>
+						<input type="hidden" name="attendance_date" value="{{$attendace->attendance_date}}">
+						<input type="hidden" name="grade_id" value="{{$attendace->id}}">
+						<button class="btn btn-info">Edit</button>
 					{!! Form::close() !!}
 					
 				</td>

@@ -9,7 +9,7 @@
 	
 	<div class="row justify-content-center">
 		<div class="col-3"> 
-			Date:{!! Form::date('attendance_date', \Carbon\Carbon::now(),['class'=>'form-control']) !!}
+			Date:{!! Form::date('attendance_date', '\Carbon\Carbon::now()',['class'=>'form-control']) !!}
 			<input type="hidden" name="grade_id" value="{{$grade->id}}">
 		</div>
 	</div>
@@ -62,6 +62,7 @@
 
 @section('scripts')
 <script>
+	
 	$(document).ready(function(){
 
 		 $('#options').click(function(){

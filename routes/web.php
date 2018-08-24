@@ -33,3 +33,6 @@ Route::resource('admin/student','AdminStudentController',['as'=>'admin']);
 Route::resource('professor/attendance', 'AttendanceController',['as'=>'professor'])->except(['index']);
 Route::get('professor/attendance/{id}/index', 'AttendanceController@index',['as'=>'professor'])->name('professor.attendance.index');
 
+Route::get('/student', 'StudentAreaController@index')->name('student');
+ 
+
