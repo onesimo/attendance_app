@@ -30,6 +30,7 @@
 				<td width="20px">{{$students->id}}</td>
 				<td width="300px">{{$students->name}}</td>
 				<td width="20px">
+					<input type="hidden" name="students_ids[]"value="{{$students->id}}"> 
 					<input  class="checkBoxes" type="checkbox" name="attendance_1[]"value="{{$students->id}}"> 
 				</td>
 				<td width="20px">

@@ -15,10 +15,10 @@ var ctx = document.getElementById("myChart").getContext('2d');
 var myChart = new Chart(ctx, {
     type: 'bar',
     data: {
-        labels: ["May", "June", "July"],
+        labels: ["May", "June" ],
         datasets: [{
-            label: '# of Votes',
-            data: [1,3,5
+            label: '# of Attendance',
+            data: [1,45 
             	 ],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',

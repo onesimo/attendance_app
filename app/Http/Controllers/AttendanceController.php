@@ -52,41 +52,44 @@ class AttendanceController extends Controller
     {   
         $grade = Grade::findOrFail($request->grade_id);
 
-        /*Validation*/
-        if(!isset($request->attendance_1) && !isset($request->attendance_2)) {
-            return back()->withErrors('No data selected');
-        }
         $request->validate(['attendance_date' => 'required']);
 
         $attendances = Attendance::whereGradeId($request->grade_id)
                             ->whereAttendanceDate($request->attendance_date)
                             ->delete();
 
+        
+        if(!isset($request->students_ids)){
+            redirect()->back()->withErrors('This class has no studens');
+        }
         /*Insert first interval*/                    
-        $sync_data = [];
-        if(isset($request->attendance_1)){
-            for($i = 0; $i < count($request->attendance_1); $i++)
-                $sync_data[$request->attendance_1[$i]] = [
-                    'attendance_date' => $request->attendance_date, 
-                    'interval' =>1
-                ];
+        $sync_data1 = $sync_data2  = [];
 
-            $grade->attendances()->attach($sync_data);
+        $request->attendance_1 = !isset($request->attendance_1) ? [] : $request->attendance_1;
+        $request->attendance_2 = !isset($request->attendance_2) ? [] : $request->attendance_2;
+
+
+        for($i = 0; $i < count($request->students_ids); $i++){
+
+            $interval1 = (in_array($request->students_ids[$i],$request->attendance_1)) ? 1 : 3; 
+
+            $sync_data1[$request->students_ids[$i]] = [
+                'attendance_date' => $request->attendance_date, 
+                'interval' => $interval1
+            ];
+
+            $interval2 = (in_array($request->students_ids[$i],$request->attendance_2)) ? 2 : 4; 
+
+            $sync_data2[$request->students_ids[$i]] = [
+                'attendance_date' => $request->attendance_date, 
+                'interval' => $interval2
+            ];
         }
 
-        /*Insert second interval*/     
-        $sync_data = [];
-        if(isset($request->attendance_2)){
-            for($i = 0; $i < count($request->attendance_2); $i++)
-                $sync_data[$request->attendance_2[$i]] = [
-                    'attendance_date' => $request->attendance_date, 
-                    'interval' =>2
-                ];
+        //return $sync_data1;
 
-            $grade->attendances()->attach($sync_data);
-        }
-
-       
+        $grade->attendances()->attach($sync_data1);  
+        $grade->attendances()->attach($sync_data2);
          
         return redirect("professor/attendance/$request->grade_id/index");
     }
@@ -155,33 +158,38 @@ class AttendanceController extends Controller
                             ->whereAttendanceDate($request->attendance_date)
                             ->delete();
 
+        if(!isset($request->students_ids)){
+            redirect()->back()->withErrors('This class has no studens');
+        }
         /*Insert first interval*/                    
-        $sync_data = [];
-        if(isset($request->attendance_1)){
-            for($i = 0; $i < count($request->attendance_1); $i++)
-                $sync_data[$request->attendance_1[$i]] = [
-                    'attendance_date' => $request->attendance_date, 
-                    'interval' =>1
-                ];
+        $sync_data1 = $sync_data2  = [];
 
-            $grade->attendances()->attach($sync_data);
+        $request->attendance_1 = !isset($request->attendance_1) ? [] : $request->attendance_1;
+        $request->attendance_2 = !isset($request->attendance_2) ? [] : $request->attendance_2;
+
+
+        for($i = 0; $i < count($request->students_ids); $i++){
+
+            $interval1 = (in_array($request->students_ids[$i],$request->attendance_1)) ? 1 : 3; 
+
+            $sync_data1[$request->students_ids[$i]] = [
+                'attendance_date' => $request->attendance_date, 
+                'interval' => $interval1
+            ];
+
+            $interval2 = (in_array($request->students_ids[$i],$request->attendance_2)) ? 2 : 4; 
+
+            $sync_data2[$request->students_ids[$i]] = [
+                'attendance_date' => $request->attendance_date, 
+                'interval' => $interval2
+            ];
         }
 
-        /*Insert second interval*/     
-        $sync_data = [];
-        if(isset($request->attendance_2)){
-            for($i = 0; $i < count($request->attendance_2); $i++)
-                $sync_data[$request->attendance_2[$i]] = [
-                    'attendance_date' => $request->attendance_date, 
-                    'interval' =>2
-                ];
-
-            $grade->attendances()->attach($sync_data);
-        }
+        $grade->attendances()->attach($sync_data1);  
+        $grade->attendances()->attach($sync_data2);
 
         return redirect()->back()->with('message','Data updated');
 
-        //return redirect("professor/attendance/$request->grade_id/index");
     }
 
     /**

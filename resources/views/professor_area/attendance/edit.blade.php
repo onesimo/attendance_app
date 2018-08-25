@@ -33,6 +33,7 @@
 		<tr>
 			<td>{{$attendance->name}}
 			<td>
+			<input type="hidden" name="students_ids[]"value="{{$attendance->id}}"> 
 			<input class="checkBoxes" type="checkbox" name="attendance_1[]" value="{{$attendance->id}}" {{($attendance->interval1) ? "checked" : "" }}>
 			<td> <input class="checkBoxes" type="checkbox" name="attendance_2[]" value="{{$attendance->id}}"  {{($attendance->interval2) ? "checked" : "" }}>
 	@endforeach
