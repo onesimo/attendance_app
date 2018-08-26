@@ -38,10 +38,12 @@ class AdminStudentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-       $request->validate([
+    {   
+        //return $request;
+        $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
+            'start_date' => 'required|date',
             'password' => 'required|string|min:6|confirmed',]);
 
         $request['password'] = Hash::make($request->password);
