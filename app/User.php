@@ -5,11 +5,27 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Carbon\Carbon;
 
 class User extends Authenticatable
 {
     use Notifiable;
     use SoftDeletes;
+        
+    /*protected $dates = [
+        'start_date',
+        'finish_date'
+    ];*/
+
+    public function setStartDateAttribute($date)
+    {
+        $this->attributes['start_date'] = date("Y-m-d",strtotime($date));
+    }
+
+    public function getStartDateDateAttribute($value)
+    {
+        return Carbon::parse($value)->toFormattedDateString();
+}    
 
     /**
      * The attributes that are mass assignable.
@@ -17,7 +33,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','type_id'
+        'name', 'email', 'password','type_id','start_date','finish_date'
     ];
 
     /**

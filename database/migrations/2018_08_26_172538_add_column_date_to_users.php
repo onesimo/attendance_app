@@ -14,7 +14,8 @@ class AddColumnDateToUsers extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            //
+            $table->date('start_date')->nullable();
+            $table->date('finish_date')->nullable();
         });
     }
 
@@ -26,7 +27,8 @@ class AddColumnDateToUsers extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            //
+            $table->dropColumn('start_date');
+            $table->dropColumn('finish_date');
         });
     }
 }

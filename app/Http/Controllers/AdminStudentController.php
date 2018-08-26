@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Grade;
 
+
 class AdminStudentController extends Controller
 {
     /**
@@ -43,7 +44,8 @@ class AdminStudentController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'start_date' => 'required|date',
+            'start_date' => 'date_format:d/m/Y|required',
+            'finish_date' => 'nullable|date_format:d/m/Y',
             'password' => 'required|string|min:6|confirmed',]);
 
         $request['password'] = Hash::make($request->password);
