@@ -21,6 +21,20 @@
 		 </div> 
 
 		 <div class="form-group">
+
+		  {!! Form::label('start_date','Start Date:') !!}
+		  {!! Form::text('start_date',null,['class'=>'form-control', 'id'=>'datetimepicker1']) !!}
+		  
+		 </div> 
+
+		 <div class="form-group">
+
+		  {!! Form::label('finish_date','Finish Date:') !!}
+		  {!! Form::text('finish_date',null,['class'=>'form-control', 'id'=>'datetimepicker2']) !!}
+		  
+		 </div>
+
+		 <div class="form-group">
  
 		  {!! Form::label('password','Password:') !!} 
 		  {!! Form::password('password',['class'=>'form-control']) !!}
@@ -41,4 +55,20 @@
 	<hr>
 </div>
 @stop 
+ 
+@section('scripts')
+
+ <script type="text/javascript">
+    $(function () {
+    	$('#datetimepicker1').datetimepicker({
+		    format: 'DD/MM/YYYY'
+		});
+		$('#datetimepicker2').datetimepicker({
+		    format: 'DD/MM/YYYY'
+		});
+ 
+    });
+</script>
+
+@stop
  

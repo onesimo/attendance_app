@@ -12,20 +12,30 @@ class User extends Authenticatable
     use Notifiable;
     use SoftDeletes;
         
-    /*protected $dates = [
+    protected $dates = [
         'start_date',
         'finish_date'
-    ];*/
+    ];
 
     public function setStartDateAttribute($date)
     {
         $this->attributes['start_date'] = date("Y-m-d",strtotime($date));
     }
 
-    public function getStartDateDateAttribute($value)
+    public function getStartDateAttribute($value)
     {
-        return Carbon::parse($value)->toFormattedDateString();
-}    
+        return \Carbon\Carbon::parse($value)->format('d-m-Y');
+    }
+
+    public function setFinishDateAttribute($date)
+    {
+        $this->attributes['start_date'] = date("Y-m-d",strtotime($date));
+    }
+
+    public function getFinishDateAttribute($value)
+    {
+        return \Carbon\Carbon::parse($value)->format('d-m-Y');
+    }    
 
     /**
      * The attributes that are mass assignable.
