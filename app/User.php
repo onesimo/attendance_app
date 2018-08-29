@@ -14,28 +14,11 @@ class User extends Authenticatable
         
     protected $dates = [
         'start_date',
-        'finish_date'
+        'finish_date',
+        'deleted_at',
+        'created_at',
+        'updated_at'
     ];
-
-    public function setStartDateAttribute($date)
-    {
-        $this->attributes['start_date'] = date("Y-m-d",strtotime($date));
-    }
-
-    public function getStartDateAttribute($value)
-    {
-        return \Carbon\Carbon::parse($value)->format('d-m-Y');
-    }
-
-    public function setFinishDateAttribute($date)
-    {
-        $this->attributes['start_date'] = date("Y-m-d",strtotime($date));
-    }
-
-    public function getFinishDateAttribute($value)
-    {
-        return \Carbon\Carbon::parse($value)->format('d-m-Y');
-    }    
 
     /**
      * The attributes that are mass assignable.
@@ -54,6 +37,27 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function setStartDateAttribute($date)
+    {
+        $this->attributes['start_date'] = \Carbon\Carbon::createFromFormat('d/m/Y', $date)->format('Y-m-d'); 
+    }
+
+    public function getStartDateAttribute($value)
+    {
+        return isset($value)? \Carbon\Carbon::parse($value)->format('d-m-Y') : null;
+    }
+
+    public function setFinishDateAttribute($date)
+    {
+        $this->attributes['finish_date'] = \Carbon\Carbon::createFromFormat('d/m/Y', $date)->format('Y-m-d');
+    }
+
+    public function getFinishDateAttribute($value)
+    {
+        return isset($value)? \Carbon\Carbon::parse($value)->format('d-m-Y') : null;
+    }    
+
 
     public function professor()
     {

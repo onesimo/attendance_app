@@ -41,9 +41,9 @@ class AdminStudentController extends Controller
      */
     public function store(Request $request)
     {   
-        $request->start_date = \Carbon\Carbon::parse($request->start_date)->format('Y-m-d');
+    /*    $request->start_date = \Carbon\Carbon::parse($request->start_date)->format('Y-m-d');
         $request->finish_date = \Carbon\Carbon::parse($request->finish_date)->format('Y-m-d');
- 
+ */
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -52,7 +52,9 @@ class AdminStudentController extends Controller
             'password' => 'required|string|min:6|confirmed',]);
 
         $request['password'] = Hash::make($request->password);
-          
+        
+        //return $request->all();
+
         User::create($request->all());
 
         return $this->index();
@@ -77,7 +79,8 @@ class AdminStudentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
+    {   
+
         $student = User::findOrFail($id);
 
         return view('admin.student.edit',compact('student'));
@@ -93,12 +96,8 @@ class AdminStudentController extends Controller
     public function update(Request $request, $id)
     {   
         $user = User::findOrfail($id);
-
-        return $request->start_date;
-        $request->start_date =  \Carbon\Carbon::parse($request->start_date)->format('Y-m-d');
-
-        $request->finish_date = \Carbon\Carbon::parse($request->finish_date)->format('Y-m-d');
-       
+ 
+               
         $password_update = '';
         if(trim($request->password) !== ''){
             $input = $request->all(); 
@@ -107,8 +106,7 @@ class AdminStudentController extends Controller
         }else{ 
             $input = $request->except('password'); 
         }
- 
- 
+
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
