@@ -40,22 +40,22 @@ class User extends Authenticatable
 
     public function setStartDateAttribute($date)
     {
-        $this->attributes['start_date'] = \Carbon\Carbon::createFromFormat('d/m/Y', $date)->format('Y-m-d'); 
+        $this->attributes['start_date'] = isset($date)? \Carbon\Carbon::createFromFormat('d/m/Y', $date)->format('Y-m-d') : null;
     }
 
     public function getStartDateAttribute($value)
     {
-        return isset($value)? \Carbon\Carbon::parse($value)->format('d-m-Y') : null;
+        return isset($value)? \Carbon\Carbon::createFromFormat('Y-m-d', $value)->format('d/m/Y') : null;
     }
 
     public function setFinishDateAttribute($date)
     {
-        $this->attributes['finish_date'] = \Carbon\Carbon::createFromFormat('d/m/Y', $date)->format('Y-m-d');
+        $this->attributes['finish_date'] =  isset($date)? \Carbon\Carbon::createFromFormat('d/m/Y', $date)->format('Y-m-d'): null;
     }
 
     public function getFinishDateAttribute($value)
     {
-        return isset($value)? \Carbon\Carbon::parse($value)->format('d-m-Y') : null;
+        return isset($value)? \Carbon\Carbon::parse($value)->format('d/m/Y') : null;
     }    
 
 
