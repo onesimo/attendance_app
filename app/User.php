@@ -38,7 +38,7 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function setStartDateAttribute($date)
+    /*public function setStartDateAttribute($date)
     {
         $this->attributes['start_date'] = isset($date)? \Carbon\Carbon::createFromFormat('d/m/Y', $date)->format('Y-m-d') : null;
     }
@@ -55,9 +55,9 @@ class User extends Authenticatable
 
     public function getFinishDateAttribute($value)
     {
-        return isset($value)? \Carbon\Carbon::parse($value)->format('d/m/Y') : null;
+        return isset($value)? \Carbon\Carbon::createFromFormat('Y-m-d', $value)->format('d/m/Y') null;
     }    
-
+*/
 
     public function professor()
     {

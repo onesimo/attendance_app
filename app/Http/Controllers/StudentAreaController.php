@@ -16,9 +16,11 @@ class StudentAreaController extends Controller
     {	
     	$user = Auth::user();
 
-       	$start_date = \Carbon\Carbon::parse($user->start_date)->format('Y-d-m');
+       	 $start_date = \Carbon\Carbon::parse($user->start_date);
 
-    	return $start_date->diff(\Carbon\Carbon::now());
+       	//return \Carbon\Carbon::now()->format('Y-m-d'). '  '.$start_date;
+
+    	return $start_date->diffInDays(\Carbon\Carbon::now()->format('Y-m-d'));
     	$grade = Grade::findOrFail(1);
 
  		$attendances_count = DB::table('attendances') 
